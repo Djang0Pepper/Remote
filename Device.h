@@ -11,6 +11,7 @@
 #include "WString.h"
 #include "RfKey.h"
 #include "IrKey.h"
+#include "SoftwareSerial.h"
 
 // GPIO16 -> D0 ->
 // GPIO05 -> D1 -> Pin Ricevitore RF433
@@ -34,6 +35,8 @@ class Device {
     
     static const int IR_RX_PIN = D5;
     static const int IR_TX_PIN = D6;
+    //static const int IR_RX_PIN = 14;
+    //static const int IR_TX_PIN = 12;
  
     Device(const String &dev_name, const String &dev_type);
     ~Device();
@@ -75,7 +78,3 @@ class Device {
 };
 
 #endif
-
-
-
-

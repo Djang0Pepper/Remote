@@ -5,8 +5,9 @@
 */
 
 #include "Arduino.h"
+#include "SoftwareSerial.h"
 ADC_MODE(ADC_VCC);
-
+SoftwareSerial sw;
 
 #include "DeviceHandler.h"
 #include "ConnectionManager.h"
@@ -49,10 +50,3 @@ void loop() {
     ESP.restart();
   }
 }
-
-
-
-
-
-
-

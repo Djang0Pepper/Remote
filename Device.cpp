@@ -5,6 +5,8 @@
 */
 
 #include "Device.h"
+#include "SoftwareSerial.h"
+
 
 String Device::TYPES[Device::TYPE_NUM] = { "IRDA", "RF433" };
 String Device::TYPES_DESCRIPTION[Device::TYPE_NUM] = { "Infrarossi", "Radio Freq. 433Mhz" };
@@ -222,6 +224,7 @@ void Device::sendIrKeyData(Key *key) {
   }
 
   SoftwareSerial sw(IR_RX_PIN, IR_TX_PIN, false, 16);
+  //sw.begin(9600, SWSERIAL_8N1, IR_RX_PIN, IR_TX_PIN, false, 16);
   int i=0;
   sw.begin(9600);
   // Protocollo
@@ -249,6 +252,7 @@ Key * Device::acquireIrKeyData() {
   char code[11] = {'0', 'x', '\0'};
   SoftwareSerial sw(IR_RX_PIN, IR_TX_PIN, false, 16);
   sw.begin(9600);
+  //SoftwareSerial sw.begin(9600, SWSERIAL_8N1, IR_RX_PIN, IR_TX_PIN, false, 16);
   boolean is_code_ok = false;
   int attempt = 3;
   for (int i=0; i < attempt; i++) {
@@ -294,5 +298,3 @@ Key * Device::acquireRfKeyData() {
   sw.disableReceive();
   return rf;
 }
-
-
