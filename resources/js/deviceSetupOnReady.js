@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 found = $( this ).text() == new_name;
                 return !found;
             });
-            this.setCustomValidity(found ? 'Le nom du dispositif est déja en cours d'utilisation' : '');
+            this.setCustomValidity( found ? 'Le nom du dispositif est déja en cours d utilisation' : '');
         }
     });
     /* Evento show su tab elenco device */
