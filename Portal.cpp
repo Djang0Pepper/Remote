@@ -13,7 +13,7 @@ boolean Portal::setup() {
   IPAddress ip = ConnectionManager::getIpAddress();
  
   if (ip.toString() == "0.0.0.0") {
-    Serial.println("Indirizzo IP non valido");
+    Serial.println("Adresse IP non valide");
     return false;
   }
 
@@ -25,9 +25,9 @@ boolean Portal::setup() {
     dnsServer->setErrorReplyCode(DNSReplyCode::NoError);
 
     if (dnsServer->start(DNS_PORT, "*", ip)) {
-      Serial.println("Avviato servizio DNS");
+      Serial.println(" Service DNS démarré " );
       } else {
-        Serial.println("Impossibile avviare servizio DNS");
+        Serial.println(" Impossible de démarrer le service DNS ");
     }
   }
 
@@ -66,13 +66,13 @@ boolean Portal::setup() {
   server->begin(); // Web server start
 
   dh = DeviceHandler();
-  Serial.println("Avviato server HTTP");
+  Serial.println("server HTTP démarré");
 /*
   if (!ap_mode) {
     MDNS.begin(AP_SSID);
     MDNS.addService("http", "tcp", 80);
     delay(1000);
-    //Serial.println("Avviato servizio mDNS");
+    //Serial.println("activation serveur mDNS");
   }
 */
   return true;
@@ -114,13 +114,13 @@ void Portal::handleSaveWifi() {
   boolean success = ConnectionManager::connectWifi(new_ssid, new_pass, true);
 
   if (!success) {
-    Serial.print("Impossibile collegarsi alla rete Wifi ");
+    Serial.print(" portal : Impossible de se connecter au réseau Wifi ");
     message.replace("{class}",  "error");
-    msg = "Errore impossibile collegarsi alla rete senza fili ";
+    msg = "portal : Erreur impossible de se connecter au réseau sans fil  ";
     msg += new_ssid;
   } else {
     message.replace("{class}",  "info");
-    msg = "Connessione riuscita il dispositivo si riavvierà per completare la configurazione.";
+    msg = "portal: Connexion réussie, le périphérique redémarrera pour terminer la configuration. ";
     need_restart = true;
   }
 
@@ -144,20 +144,20 @@ void Portal::handleSendKey() {
         if (dh.setDevice( device_name ) ) {
           Device & d = dh.getDevice();
           if (d.sendKeyData(key_name)) {
-            msg="Invio tasto riuscito";
+            msg="Invio clé riuscito";
             error = false;
           } else {
-            msg="Errore: impossibile inviare tasto";
+            msg="Error: impossible clé invalide";
           }
          
         } else {
-          msg="Errore: impossibile selezionare dispositivo";
+          msg="Error: impossible de selectionner le device";
         }
       } else {
-        msg = "Errore: parametri non validi";
+        msg = "Error: paramètres invalide";
       }
   } else {
-    msg = "Errore: parametri assenti";
+    msg = "Error: paramètres absent";
   }
 
   String json = "{ \"error\" :";
@@ -175,7 +175,7 @@ void Portal::handleEditDevice() {
 
     if(!server->hasArg("device_name") || !server->hasArg("device_type")) {
       
-      msg = "Errore: nome o tipo dispositivo non specificati";
+      msg = "Erreur: nom ou type de périphérique non spécifié";
 
     } else {
 
@@ -184,11 +184,11 @@ void Portal::handleEditDevice() {
 
       if (!Validation::isValidDeviceName(device_name)) {
 
-        msg = "Errore: nome dispositivo non valido";
+        msg = "Error: nom device non valide";
 
       } else if (!Validation::isValidDeviceType(device_type)) {
 
-        msg = "Errore: tipo dispositivo non valido";
+        msg = "Erreur: type de périphérique non valide ";
 
       } else if (dh.setDevice( device_name, device_type ))  {
 
@@ -200,22 +200,22 @@ void Portal::handleEditDevice() {
 
             if (dh.renameDevice(new_device_name)) {
               error = false;
-              msg = "Dispositivo rinominato";
+              msg = "device renommé";
               device_name = new_device_name;
             } else {
-              msg = "Errore: impossibile rinominare il dispositivo";
+              msg = "Erreur: impossible de renommer l'appareil";
             }
           } else {
-            msg = "Errore: nuovo nome del dispositivo non valido"; 
+            msg = "Erreur: nouveau nom de périphérique non valide"; 
           }
 
         } else {
           error = false;
-          msg = "Dispositivo correttamente configurato";
+          msg = "appareil correctement configuré";
         }
 
       } else {
-        msg = "Errore: impossibile configurare il dispositivo";
+        msg = "Error: impossible de configurer l'appareil";
       }
     }
 
@@ -234,7 +234,7 @@ void Portal::handleDeleteDevice() {
 
   if(!server->hasArg("device_name")) {
       
-    msg = "Errore: nome dispositivo non specificato";
+    msg = "Error: nom device non spécifique";
 
   } else {
 
@@ -242,15 +242,15 @@ void Portal::handleDeleteDevice() {
 
     if (!Validation::isValidDeviceName(device_name)) {
 
-      msg = "Errore: nome dispositivo non valido";
+      msg = "Error: nom device non valide";
 
     } else if (dh.setDevice(device_name)) {
 
       if (dh.deleteDevice()) {
         error = false;
-        msg = "Dispositivo eliminato correttamente";
+        msg = "device eliminato correttamente";
       } else {
-        msg = "Errore: impossibile eliminare il dispositivo";
+        msg = "Erreur: impossible de supprimer l'appareil";
       }
     }
   }
@@ -270,7 +270,7 @@ void Portal::handleGetDeviceInfo() {
 
   if(!server->hasArg("device_name")) {
       
-    msg = "Errore: nome dispositivo non specificato";
+    msg = "Error: nom device non spécifié";
 
   } else {
 
@@ -278,7 +278,7 @@ void Portal::handleGetDeviceInfo() {
 
     if (!Validation::isValidDeviceName(device_name)) {
 
-      msg = "Errore: nome dispositivo non valido";
+      msg = "Error: nom device non valide";
 
     } else if (dh.setDevice(device_name)) {
 
@@ -287,7 +287,7 @@ void Portal::handleGetDeviceInfo() {
 
     } else {
 
-      msg = "Errore: impossibile selezionare il dispositivo";
+      msg = "Error: impossible selectionner il device";
 
     }
   }
@@ -343,7 +343,7 @@ void Portal::handleEditDeviceKey() {
 
   if(!server->hasArg("device_name")) {
       
-    msg = "Errore: nome dispositivo non specificato";
+    msg = "Error: nom device non spécifié";
 
   } else {
     
@@ -351,7 +351,7 @@ void Portal::handleEditDeviceKey() {
 
     if (!Validation::isValidDeviceName(device_name)) {
 
-      msg = "Errore: nome dispositivo non valido";
+      msg = "Error: nom device non valide";
 
     } else if (dh.setDevice(device_name)) {
 
@@ -371,7 +371,7 @@ void Portal::handleEditDeviceKey() {
           device_key += "\"" + names[i] + "\":\"" + values[i] + "\","; 
         } else {
           error = true;
-          msg = "Errore parametro " + names[i] + " non valido";
+          msg = "Error paramètre " + names[i] + " non valide";
           break;
         }
       }
@@ -382,14 +382,14 @@ void Portal::handleEditDeviceKey() {
       
       if (!error) {
         if (dh.addDeviceKey(values)) {
-          msg = "Tasto aggiunto al dispositivo";
+          msg = "Tasto aggiunto al device";
         } else {
-          msg = "Errore impossibile salvare la configurazione del tasto";
+          msg = "Error impossible d'enregistrer la configuration de la clé";
           error = true;
         }
       }
     } else {
-        msg = "Errore: impossibile configurare il dispositivo";  
+        msg = "Error: impossible configurer le device";  
     }
   }
 
@@ -415,7 +415,7 @@ void Portal::handleDeleteDeviceKey() {
       || !server->hasArg("device_key_name")
     ) {
 
-      msg = "Errore: paramentri mancanti";
+      msg = "Error: paramètre manquant";
 
     } else {
 
@@ -424,24 +424,24 @@ void Portal::handleDeleteDeviceKey() {
 
       if (!Validation::isValidDeviceName(device_name)) {
 
-        msg = "Errore: nome dispositivo non valido";
+        msg = "Error: nom device non valide";
 
       } else if (!Validation::isValidDeviceKeyName(device_key_name)) {
 
-        msg = "Errore: nome tasto non valido";
+        msg = "Error: nom clé non valide";
 
       } else if (!dh.setDevice( device_name ))  {
 
-        msg = "Errore: impossibile configurare il dispositivo";  
+        msg = "Error: impossible configurer le device";  
 
       } else if (dh.deleteDeviceKey( device_key_name)) {
 
-        msg = "Tasto eliminato dal dispositivo";
+        msg = "Clé supprimé de l'appareil";
         error = false;
 
       } else {
         
-        msg = "Errore: impossibile salvare la configurazione del dispositivo";
+        msg = "Error: impossible enregistrer la configuration du device";
       }
     }
 
@@ -473,7 +473,7 @@ void Portal::handleWifiList() {
 void Portal::handleSetupWifi() {
 
     String body = FPSTR(HTML_PAGE_HEADER);
-    body.replace("{btext}", "Impostazione dispositivi e tasti");
+    body.replace("{btext}", "réglages device clés");
     body.replace("{stext}","");
     body += (ap_mode ? FPSTR(HTML_SIMPLE_WIFI_FORM) : FPSTR(HTML_FULL_WIFI_FORM));
     body.replace("{ssid}", ConnectionManager::getSsid());
@@ -491,7 +491,7 @@ void Portal::handleSetupWifi() {
 void Portal::handleSetupDevices() {
 
     String body = FPSTR(HTML_PAGE_HEADER);
-    body.replace("{btext}", "Impostazione dispositivi e tasti");
+    body.replace("{btext}", "réglagesdispositivi e cléfs");
     body.replace("{stext}","");
     body += getDevPanel();
 
@@ -510,7 +510,7 @@ void Portal::handleAcquireKeyData() {
 
   if(!server->hasArg("device_name")) {
       
-    msg = "Errore: nome dispositivo non specificato";
+    msg = "Error: nom device non spécifié";
 
   } else {
 
@@ -518,7 +518,7 @@ void Portal::handleAcquireKeyData() {
 
     if (!Validation::isValidDeviceName(device_name)) {
 
-      msg = "Errore: nome dispositivo non valido";
+      msg = "Error: nom device non valide";
 
     } else if (dh.setDevice(device_name)) {
 
@@ -531,7 +531,7 @@ void Portal::handleAcquireKeyData() {
         delete key;
       }
     } else {
-      msg = "Errore: impossibile configurare il dispositivo";
+      msg = "Error: impossible configurer le device";
     }
   }
   String json = "{ \"error\" :";
@@ -592,7 +592,7 @@ String Portal::getMessageTpl() {
 boolean Portal::redirect() {
 
   if ( ap_mode && !ConnectionManager::isIp(server->hostHeader())) {
-    Serial.println("Richiesto un hostname redirigo la richiesta verso l'ip locale.");
+    Serial.println(" J'ai demandé un nom d'hôte, je redirige la demande vers l'adresse IP locale. " );
     this->redirectHeaders(String("http://") + server->client().localIP().toString());
     return true;
   }
@@ -601,7 +601,7 @@ boolean Portal::redirect() {
 
 void Portal::redirectHeaders(String where) {
   
-      Serial.println("Redirigo la richiesta verso ");
+      Serial.println("Redirige la requête vers ");
       Serial.println(where);
 
       server->sendHeader("Location", where, true);
@@ -619,27 +619,27 @@ String Portal::getDevPanel() {
 
   devpane += prepareModal(
     String("device-edit"),
-    String("Modifica/Crea dispositivo"),
+    String(" Modifier / Créer un device " ),
     prepareDeviceForm(),
     "saveDeviceData"
   );
   devpane += prepareModal(
     String("device-delete"),
-    String("Elimina dispositivo"),
-    String("Eliminare il dispositivo <b class=\"device-name\"></b> e i comandi configurati?"),
+    String("Supprimer un device"),
+    String("Supprimer le device <b class=\"device-name\"></b> et les commandes configurées ?"),
     "deleteDevice"
   );
   devpane += prepareModal(
     String("device-key-edit"),
-    String("Tasto dispositivo"),
+    String("Cléf du device"),
     "",
     "saveDeviceKey" 
   );
 
   devpane += prepareModal(
     String("device-key-delete"),
-    String("Elimina tasto"),
-    String("Eliminare il tasto <b class=\"device-key-name\"></b> del dispositivo <i class=\"device-name\"></i>"),
+    String("Supprimer la cléf"),
+    String("Supprimer la cléf <b class=\"device-key-name\"></b> du device <i class=\"device-name\"></i>"),
     "deleteDeviceKey"
   );
 
@@ -650,7 +650,7 @@ String Portal::getDevPanel() {
   panelbody += "</div>";
 
   String alert = FPSTR(HTML_FULL_ALERT_TPL);
-  alert.replace("{message}", "Nessun dispositivo configurato");
+  alert.replace("{message}", "Aucun device configuré");
 
   if (dn == 0) {
     panelbody.replace("{dev_li_list}", "");
@@ -764,5 +764,3 @@ String Portal::keyAttrToJson(int num, Key * key) {
     jattrs += "}";
     return jattrs;
 }
-
-

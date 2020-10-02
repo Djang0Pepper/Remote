@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 found = $( this ).text() == new_name;
                 return !found;
             });
-            this.setCustomValidity(found ? 'Il nome del dispositivo è già in uso' : '');
+            this.setCustomValidity(found ? 'Le nom du dispositif est déja en cours d'utilisation' : '');
         }
     });
     /* Evento show su tab elenco device */
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         );
     });
 
-    /* Edit (nuovo) tasto */
+    /* Edit (nouvelle) clé */
     $('#device-key-edit').on('shown.bs.modal', function() {
         var dev_pane_id = $('#devices-list').find('li.active a').attr('href');
         var dev_name = $(dev_pane_id).children('input[name=device_name]').eq(0).val();
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
             $(e.relatedTarget).closest("tr.key-row").children('td:eq(1)').text().trim()
         );
     });
-    /* evento di input sul nome del tasto */
+    /* evento di input sul nom del clé */
     $('#frm_edit_dev_key_name').on('input',  function() {
         var dev_pane_id = $('#devices-list').find('li.active a').attr('href');
         var found = false;
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 return !found;
             }
         );
-        this.setCustomValidity( found ? 'Il nome del tasto è già in uso' : '');
+        this.setCustomValidity( found ? 'La clé nom est déjà utilisée' : '');
     });
 
 });

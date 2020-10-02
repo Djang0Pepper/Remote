@@ -25,14 +25,14 @@ void ConnectionManager::initConnection() {
   }
 
   if (station) {
-    Serial.print("Connesso alla rete Wifi ");
+    Serial.print(" Connecté au réseau Wifi " );
     Serial.println(ssid);
-    Serial.print("Indirizzo IP: ");
+    Serial.print("Adresse IP: ");
     Serial.println(WiFi.localIP());
   } else {
-    Serial.print("Impossible connettersia alla rete Wifi ");
+    Serial.print("Connection au reseau WiFi Impossible ");
     Serial.println(ssid);
-    Serial.println("Commuto in modo AP");
+    Serial.println("Commute en mode AP");
     ConnectionManager::setupAp(FPSTR(AP_SSID), FPSTR(AP_PASS));
   }
 }
@@ -44,16 +44,16 @@ boolean ConnectionManager::connectWifi(String ssid, String pass, bool force=fals
 
     if (!force) {
       // Tento prima con le credenziali memorizzate
-      Serial.print("Tento collegamento Wify con credenziali memorizzate.");
+      Serial.print(" Tentative de connexion au Wifi avec les informations d'identification stockées. ");
       WiFi.begin();
       conn_status = ConnectionManager::waitForConnection(false);
     }
 
     // Se fallisce tento con le credenziali passate
     if (conn_status != WL_CONNECTED && ssid.length() != 0) {
-      Serial.print("Tento collegamento alla rete Wifi ");
+      Serial.print( " J'essaye de me connecter au réseau Wifi " );
       Serial.println(ssid);
-      Serial.print("Password ");
+      Serial.print("Password : ");
       Serial.println(pass);
 
       if (force)
@@ -64,7 +64,7 @@ boolean ConnectionManager::connectWifi(String ssid, String pass, bool force=fals
     }
 
     Serial.println("");
-    Serial.print("Stato :");
+    Serial.print("Status :");
     Serial.println(WiFi.status());
 
     return (conn_status == WL_CONNECTED);
@@ -76,7 +76,7 @@ String ConnectionManager::encryptionCodeToString(int code) {
     case  ENC_TYPE_WEP: return String("WEP");
     case ENC_TYPE_TKIP: return String("TKIP");
     case ENC_TYPE_CCMP: return String("CCMP");
-    case ENC_TYPE_NONE: return String("Nessuna");
+    case ENC_TYPE_NONE: return String("None");
     case ENC_TYPE_AUTO: return String("Auto");
     default: return String("Nd.");
   }
@@ -84,24 +84,24 @@ String ConnectionManager::encryptionCodeToString(int code) {
 
 WifiNetworks ConnectionManager::getNetworkList() {
 
-  Serial.println("Avvio scansione reti");
+  Serial.println("Scan Wifi Networks ");
 
   // WiFi.scanNetworks ritorna il numero di reti trovate
   int n = WiFi.scanNetworks();
   
-  Serial.print("Scansione terminata: ");
+  Serial.print("Scan terminé : ");
 
   WifiNetworks nets = WifiNetworks(n);
   if (n == 0) {
 
-    Serial.println("nessuna rete trovata");
+    Serial.println("aucun réseau trouvé ");
     return nets;
  
   } else {
   
-    Serial.print("trovate ");
+    Serial.print("Scan à trouvé ");
     Serial.print(n);
-    Serial.println(" reti");
+    Serial.println(" reseaux");
 
     String ssid; // encryption;
     long rssi;
@@ -126,11 +126,11 @@ void ConnectionManager::setupAp(String ssid, String password) {
   WiFi.softAP(ssid.c_str(), password.c_str());
   delay(1000);
 
-  Serial.print("Access Point SSID: ");
+  Serial.print("Access Point SSID : ");
   Serial.println(ssid);
-  Serial.print("Access Point Password: ");
+  Serial.print("Access Point Password : ");
   Serial.println(password);
-  Serial.print("Indirizzo IP Access Point: ");
+  Serial.print("Adresse IP du point d'accès : ");
   Serial.println(WiFi.softAPIP());
 
 }
@@ -184,5 +184,3 @@ boolean ConnectionManager::isIp(String str) {
   }
   return true;
 }
-
-

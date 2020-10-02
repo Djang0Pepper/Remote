@@ -124,7 +124,7 @@ Device * DeviceHandler::loadDeviceFile( const String &device_name ) {
   String file_name = DATA_DIR + device_name;
   
   if (!SPIFFS.exists(file_name)) {
-    Serial.print("Errore: impossibile caricare il file ");
+    Serial.print("Erreur: impossible de charger le fichier : ");
     Serial.println(file_name);
     return NULL;
   }
@@ -132,7 +132,7 @@ Device * DeviceHandler::loadDeviceFile( const String &device_name ) {
   File f = SPIFFS.open( file_name, "r");
 
   if (!f) {
-    Serial.println("Errore apertura file dispositivo");
+    Serial.println("Erreur lors de l'ouverture du fichier de périphérique");
     return NULL;
   }
 
@@ -141,7 +141,7 @@ Device * DeviceHandler::loadDeviceFile( const String &device_name ) {
 
   if (line == "") {
     f.close();
-    Serial.println("Impossibile leggere il tipo di dispositivo");
+    Serial.println("Impossible de lire le type de périphérique");
     return NULL;
   }
 
@@ -189,12 +189,12 @@ boolean DeviceHandler::saveDeviceFile( Device * device ) {
   File f = SPIFFS.open(fname, "w");
 
   if (!f) {
-    Serial.print("Errore: impossibile aprire in scrittura il file ");
+    Serial.print("Erreur: le fichier n'a pas pu être ouvert pour l'écriture ");
     Serial.println(fname);
     return false;
   }
 
-  // Salvo il tipo di dispositivo
+  // Salvo il tipo di device
   f.print( device->getType() + DeviceHandler::EOL);
 
   int attr_num = device->getKeysPropertyNum();
@@ -259,7 +259,3 @@ int DeviceHandler::recountDevices(bool force) {
 int DeviceHandler::getDeviceTypesNum() { return Device::TYPE_NUM; }
 String * DeviceHandler::getDeviceTypes() { return Device::TYPES; }
 String * DeviceHandler::getDeviceTypesDescription() { return Device::TYPES_DESCRIPTION; }
-
-
-
-

@@ -44,7 +44,7 @@ var show_device_info = function (e) {
         }
          enable_tool_button();
       },
-      error : function() {alert('Errore di comunicazione con il server');}
+      error : function() {alert('Erreur de communication avec le serveur');}
     });
 }
 
@@ -107,7 +107,7 @@ function saveDeviceData() {
                 $('.no-device-alert').addClass('hidden');
             }
         },
-        error : function () { alert ('Errore di comunicazione con il server.');}
+        error : function () { alert ('Erreur de communication avec le serveur.');}
     });
 }
 
@@ -132,7 +132,7 @@ function deleteDevice() {
              $('.no-device-alert').removeClass('hidden');
 
       },
-      error : function() {alert('Errore di comunicazione con il server');}
+      error : function() {alert('Erreur de communication avec le serveur');}
     });
 
 }
@@ -197,7 +197,7 @@ function saveDeviceKey() {
                 tbody.append(setupKeyRowTemplate($(dev_pane_id), param));
             }
         },
-        error : function () { alert ('Errore di comunicazione con il server.');}
+        error : function () { alert ('Erreur de communication avec le serveur.');}
     });
 }
 
@@ -224,6 +224,6 @@ function deleteDeviceKey() {
             }
         });
       },
-      error : function() {alert('Errore di comunicazione con il server');}
+      error : function() {alert('Erreur de communication avec le serveur');}
     });
 }

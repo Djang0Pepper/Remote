@@ -62,7 +62,7 @@ var show_device_info = function (e) {
         }
         enable_tool_button();
       },
-      error : function() {alert('Errore di comunicazione con il server');}
+      error : function() {alert('Erreur de communication avec le serveur');}
     });
 }
 
@@ -125,7 +125,7 @@ var saveDeviceData = function() {
                 $('.no-device-alert').addClass('hidden');
             }
         },
-        error : function () { alert ('Errore di comunicazione con il server.');}
+        error : function () { alert ('Erreur de communication avec le serveur.');}
     });
 }
 
@@ -149,7 +149,7 @@ var deleteDevice = function() {
              $('.no-device-alert').removeClass('hidden');
 
       },
-      error : function() {alert('Errore di comunicazione con il server');}
+      error : function() {alert('Erreur de communication avec le serveur');}
     });
 
 }
@@ -161,7 +161,7 @@ var detectKeyData = function(e) {
         url : '/setup/acquireKeyData',
         data : { device_name : form.find('input[name=device_name]').val().trim() },
         dataType : 'json',
-        error : function() {alert('Errore di comunicazione con il server');},
+        error : function() {alert('Erreur de communication avec le serveur');},
         success : function(data) {
             if (data.error == true){
                 alert(data.message);
@@ -204,7 +204,7 @@ var saveDeviceKey = function() {
                 tbody.append(render_table_row_data(get_table_key_section(type, 'body').html(),data.key));
             }
         },
-        error : function () { alert ('Errore di comunicazione con il server.');}
+        error : function () { alert ('Erreur de communication avec le serveur.');}
     });
 }
 
@@ -231,6 +231,6 @@ var deleteDeviceKey = function() {
             }
         });
       },
-      error : function() {alert('Errore di comunicazione con il server');}
+      error : function() {alert('Erreur de communication avec le serveur');}
     });
 }

@@ -2,6 +2,10 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"name": "201001-163214-nodemcu",
+			"path": "..\\201001-163214-nodemcu"
 		}
 	],
 	"settings": {}

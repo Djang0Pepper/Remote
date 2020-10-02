@@ -18,8 +18,8 @@ function getNetworkList() {
                             f.selected=true;
                     }
                 } catch (a) {
-                    alert("Errore risposta server" + a)
+                    alert("Erreur de réponse du serveur" + a)
                 }
-            } else 400 == a.status ? alert("Errore 400 richiesta non valida") : alert("Errore di comunicazione con il server")
+            } else 400 == a.status ? alert("Error 400 demande invalide ") : alert("Erreur de communication avec le serveur")
     }, a.open("GET", "/setup/wifilist", !0), a.send()
 };

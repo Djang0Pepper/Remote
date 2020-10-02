@@ -219,7 +219,7 @@ void Device::sendIrKeyData(Key *key) {
   code.toUpperCase();
 
   if (code.length() % 2 != 0) {
-    Serial.println("Errore: Codice da inviare valido");
+    Serial.println(" Erreur: code valide à envoyer ");
     return;
   }
 
