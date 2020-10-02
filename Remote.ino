@@ -11,7 +11,6 @@ ADC_MODE(ADC_VCC);
 
 #include "DeviceHandler.h"
 #include "ConnectionManager.h"
-
 #include "Portal.h"
 
 Portal portal;
@@ -25,18 +24,21 @@ void setup() {
   
   Serial.print("ESP8266 chip id: ");
   Serial.println(ESP.getChipId());
-  Serial.print("Vitesse du flash ESP8266 : ");
+  Serial.print("Vitesse du flash ESP8266: ");
   Serial.println(ESP.getFlashChipSpeed());
-  Serial.print("Tension d'alimentation : ");
+  Serial.print("Tension d'alimentation: ");
   Serial.println(ESP.getVcc()); 
   Serial.print(" Raison de la dernière réinitialisation: " );
   Serial.println(ESP.getResetReason());
+  Serial.print("MAC: ");
+  Serial.println(WiFi.macAddress());
+
 
   Serial.println("Configurer la connexion wifi");
   ConnectionManager::initConnection();
   Serial.println("Demarrer le web server");
   while (!portal.setup()) {
-      Serial.println(" Impossible de configurer le serveur HTTP ");
+      Serial.println("Impossible de configurer le serveur HTTP ");
       delay(10000);
   }
 }
